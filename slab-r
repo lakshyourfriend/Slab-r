@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLAB-R | Digital Brutalism Agency</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <style>
+        /* --------------------------------------------------------------------------
+           CSS RESET & VARIABLES
+        -------------------------------------------------------------------------- */
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #e6e6e6;
+            --accent-color: #ccff00; /* Electric Lime */
+            --concrete: #2a2a2a;
+            --grid-line: rgba(255, 255, 255, 0.1);
+            
+            --font-display: 'Anton', sans-serif;
+            --font-body: 'Archivo', sans-serif;
+            
+            --spacing-container: 4vw;
+            --transition-speed: 0.4s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            cursor: none; /* Custom cursor implementation */
+        }
+
+        ::selection {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        /* --------------------------------------------------------------------------
+           UTILITIES & LAYOUT
+        -------------------------------------------------------------------------- */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 100px 100px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .container {
+            padding: 0 var(--spacing-container);
+        }
+
+        .section-padding {
+            padding-top: 15vh;
+            padding-bottom: 15vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            text-transform: uppercase;
+            line-height: 0.9;
+        }
+
+        /* --------------------------------------------------------------------------
+           CUSTOM CURSOR
+        -------------------------------------------------------------------------- */
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+        }
+        
+        .cursor.hovered {
+            width: 80px;
+            height: 80px;
+            background: #fff;
+            mix-blend-mode: exclusion;
+        }
+
+        /* --------------------------------------------------------------------------
+           LOADER
+        -------------------------------------------------------------------------- */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-text {
+            font-family: var(--font-display);
+            font-size: 15vw;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--concrete);
+            position: relative;
+        }
+
+        .loader-text::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            color: var(--accent-color);
+            overflow: hidden;
+            border-right: 4px solid var(--accent-color);
+            transition: width 0.1s linear; /* Controlled by JS */
+            -webkit-text-stroke: 0px;
+        }
+
+        /* --------------------------------------------------------------------------
+           NAVIGATION
+        -------------------------------------------------------------------------- */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem var(--spacing-container);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            color: #fff;
+        }
+
+        .menu-btn {
+            font-family: var(--font-body);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* --------------------------------------------------------------------------
+           HERO SECTION
+        -------------------------------------------------------------------------- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-title-wrapper {
+            perspective: 1000px;
+        }
+
+        .hero-title {
+            font-size: 22vw;
+            color: var(--bg-color);
+            -webkit-text-stroke: 3px var(--text-color);
+            white-space: nowrap;
+            will-change: transform;
+            transition: color 0.3s;
+        }
+        
+        .hero-title:hover {
+            color: var(--text-color);
+            -webkit-text-stroke: 0px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            right: var(--spacing-container);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .scroll-circle {
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        /* --------------------------------------------------------------------------
+           MARQUEE STRIP
+        -------------------------------------------------------------------------- */
+        .marquee-section {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            padding: 2rem 0;
+            overflow: hidden;
+            transform: rotate(-2deg) scale(1.05);
+            border-top: 4px solid var(--bg-color);
+            border-bottom: 4px solid var(--bg-color);
+        }
+
+        .marquee-track {
+            display: flex;
+            white-space: nowrap;
+        }
+
+        .marquee-item {
+            font-family: var(--font-display);
+            font-size: 6rem;
+            margin-right: 4rem;
+        }
+
+        /* --------------------------------------------------------------------------
+           ABOUT (FOUNDATION)
+        -------------------------------------------------------------------------- */
+        .about {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 4rem;
+        }
+
+        .about-label {
+            color: var(--accent-color);
+            font-family: var(--font-body);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-top: 2px solid var(--accent-color);
+            padding-top: 1rem;
+            display: inline-block;
+        }
+
+        .about-text h2 {
+            font-size: 5rem;
+            line-height: 1;
+            margin-bottom: 2rem;
+            color: var(--concrete);
+        }
+        
+        .highlight-text {
+            color: var(--text-color);
+            display: inline-block; /* Essential for animation */
+        }
+
+        .about-desc {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            max-width: 800px;
+            color: #888;
+        }
+
+        /* --------------------------------------------------------------------------
+           SELECTED WORKS (HORIZONTAL)
+        -------------------------------------------------------------------------- */
+        .works-wrapper {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        .works-container {
+            display: flex;
+            height: 80vh;
+            padding-left: var(--spacing-container);
+            gap: 4vw;
+        }
+
+        .work-card {
+            width: 70vw;
+            height: 100%;
+            background: var(--concrete);
+            flex-shrink: 0;
+            position: relative;
+            border: 1px solid #444;
+            transition: border-color 0.3s;
+            overflow: hidden;
+        }
+        
+        .work-card:hover {
+            border-color: var(--accent-color);
+        }
+
+        .work-number {
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-family: var(--font-display);
+            font-size: 4rem;
+            color: rgba(255,255,255,0.1);
+            z-index: 2;
+        }
+
+        .work-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 2rem;
+            background: linear-gradient(to top, #000, transparent);
+            z-index: 2;
+        }
+
+        .work-info h3 {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .work-info p {
+            font-family: var(--font-body);
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .work-img-placeholder {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.6;
+            transition: opacity 0.4s, transform 0.6s;
+        }
+        
+        .work-card:hover .work-img-placeholder {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        /* --------------------------------------------------------------------------
+           FOOTER
+        -------------------------------------------------------------------------- */
+        footer {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid var(--grid-line);
+            transition: background-color 0.4s;
+            position: relative;
+        }
+        
+        footer.inverted {
+            background-color: var(--accent-color);
+        }
+        
+        footer.inverted .contact-link {
+            color: var(--bg-color);
+            -webkit-text-stroke: 0;
+        }
+        
+        footer.inverted .footer-sub {
+            color: var(--bg-color);
+        }
+
+        .contact-link {
+            font-family: var(--font-display);
+            font-size: 10vw;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--text-color);
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .footer-sub {
+            margin-top: 2rem;
+            display: flex;
+            gap: 2rem;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #666;
+            z-index: 2;
+        }
+
+        /* --------------------------------------------------------------------------
+           RESPONSIVE
+        -------------------------------------------------------------------------- */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 25vw; }
+            .about-grid { grid-template-columns: 1fr; }
+            .works-wrapper { 
+                height: auto; 
+                display: block; 
+                overflow: visible;
+            }
+            .works-container {
+                flex-direction: column;
+                height: auto;
+                padding-right: var(--spacing-container);
+            }
+            .work-card { width: 100%; height: 60vh; }
+            .contact-link { font-size: 15vw; }
+            
+            /* Disable custom cursor on mobile */
+            .cursor { display: none; }
+            html, body { cursor: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- BACKGROUND GRID -->
+    <div class="grid-bg"></div>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor"></div>
+
+    <!-- LOADER -->
+    <div class="loader">
+        <div class="loader-text" data-text="SLAB-R">SLAB-R</div>
+    </div>
+
+    <!-- NAV -->
+    <nav>
+        <div class="logo">SLAB-R</div>
+        <div class="menu-btn" data-cursor-hover>Menu</div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero container">
+        <div class="hero-title-wrapper">
+            <h1 class="hero-title">SLAB-R</h1>
+        </div>
+        
+        <div class="scroll-indicator" data-cursor-hover>
+            <span>Scroll to Explore</span>
+            <div class="scroll-circle">
+                <i class="ri-arrow-down-line"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- MARQUEE -->
+    <section class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-item">STRATEGY — DESIGN — IMPACT — </div>
+            <div class="marquee-item">STRATEGY — DESIGN — IMPACT — </div>
+            <div class="marquee-item">STRATEGY — DESIGN — IMPACT — </div>
+            <div class="marquee-item">STRATEGY — DESIGN — IMPACT — </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about container section-padding">
+        <div class="about-grid">
+            <div>
+                <span class="about-label">The Foundation</span>
+            </div>
+            <div class="about-text">
+                <h2>
+                    <span class="highlight-text">WE BUILD</span><br>
+                    <span class="highlight-text">DIGITAL</span><br>
+                    <span class="highlight-text">MONUMENTS.</span>
+                </h2>
+                <p class="about-desc">
+                    Forget the fluff. We craft heavy, industrial-grade digital experiences that dominate the landscape. 
+                    Solid code. Concrete design. Unapologetic impact.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SELECTED WORKS (Horizontal Scroll) -->
+    <section class="works-wrapper">
+        <div class="works-container">
+            <!-- Card 1 -->
+            <div class="work-card" data-cursor-hover>
+                <div class="work-number">01</div>
+                <div class="work-img-placeholder" style="background-image: linear-gradient(45deg, #111, #222);">
+                    <!-- Placeholder SVG Pattern -->
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#1a1a1a"/><circle cx="50%" cy="50%" r="20%" fill="#333"/></svg>
+                </div>
+                <div class="work-info">
+                    <h3>NEON VOID</h3>
+                    <p>Cybersecurity Branding</p>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="work-card" data-cursor-hover>
+                <div class="work-number">02</div>
+                <div class="work-img-placeholder" style="background-image: linear-gradient(45deg, #111, #222);">
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#1a1a1a"/><rect x="20%" y="20%" width="60%" height="60%" fill="#333"/></svg>
+                </div>
+                <div class="work-info">
+                    <h3>IRON CLAD</h3>
+                    <p>Industrial Architecture</p>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="work-card" data-cursor-hover>
+                <div class="work-number">03</div>
+                <div class="work-img-placeholder" style="background-image: linear-gradient(45deg, #111, #222);">
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#1a1a1a"/><polygon points="50,20 80,80 20,80" fill="#333"/></svg>
+                </div>
+                <div class="work-info">
+                    <h3>ACID RAIN</h3>
+                    <p>Fashion E-Commerce</p>
+                </div>
+            </div>
+            
+             <!-- Card 4 -->
+             <div class="work-card" data-cursor-hover>
+                <div class="work-number">04</div>
+                <div class="work-img-placeholder" style="background-image: linear-gradient(45deg, #111, #222);">
+                    <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="#1a1a1a"/><circle cx="30%" cy="30%" r="10%" fill="#333"/><circle cx="70%" cy="70%" r="10%" fill="#333"/></svg>
+                </div>
+                <div class="work-info">
+                    <h3>DATA CORE</h3>
+                    <p>Fintech Dashboard</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="mailto:hello@slab-r.com" class="contact-link" id="contact-trigger">HELLO@SLAB-R.COM</a>
+        <div class="footer-sub">
+            <span>Instagram</span>
+            <span>LinkedIn</span>
+            <span>Awwwards</span>
+        </div>
+    </footer>
+
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        /* --------------------------------------------------------------------------
+           JAVASCRIPT LOGIC
+        -------------------------------------------------------------------------- */
+        
+        // Register GSAP Plugin
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- 1. LOADER ANIMATION ---
+        const loaderTimeline = gsap.timeline();
+        
+        // Animate the text fill width from 0% to 100%
+        loaderTimeline.to(".loader-text::before", {
+            width: "100%",
+            duration: 1.5,
+            ease: "power2.inOut",
+            onUpdate: function() {
+                // Manually update width because pseudo-elements can be tricky to tween directly
+                document.querySelector('.loader-text').style.setProperty('--p', this.progress() * 100 + '%');
+                // Note: The CSS transition handles the visual update based on width change, 
+                // but for more complex pseudo-element tweening, CSS variables are better.
+                // Here we rely on the CSS rule: transition: width 0.1s linear
+                const text = document.querySelector('.loader-text');
+                const pseudoStyle = document.createElement('style');
+                pseudoStyle.innerHTML = `.loader-text::before { width: ${this.progress() * 100}%; }`;
+                document.head.appendChild(pseudoStyle);
+            }
+        })
+        .to(".loader", {
+            yPercent: -100,
+            duration: 0.8,
+            ease: "power4.inOut",
+            delay: 0.2
+        })
+        .from(".hero-title", {
+            y: 100,
+            opacity: 0,
+            duration: 1,
+            ease: "power3.out"
+        }, "-=0.4");
+
+
+        // --- 2. CUSTOM CURSOR LOGIC ---
+        const cursor = document.querySelector('.cursor');
+        const hoverElements = document.querySelectorAll('[data-cursor-hover], a, button');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+
+        // --- 3. HERO KINETIC TYPOGRAPHY ---
+        const heroSection = document.querySelector('.hero');
+        const heroTitle = document.querySelector('.hero-title');
+
+        heroSection.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 2; // -1 to 1
+            const y = (e.clientY / window.innerHeight - 0.5) * 2; // -1 to 1
+
+            gsap.to(heroTitle, {
+                rotationX: -y * 15,
+                rotationY: x * 15,
+                x: x * 30,
+                y: y * 30,
+                duration: 0.5,
+                ease: "power2.out",
+                transformPerspective: 900
+            });
+        });
+        
+        // Magnetic Button Logic
+        const scrollBtn = document.querySelector('.scroll-indicator');
+        scrollBtn.addEventListener('mousemove', (e) => {
+            const rect = scrollBtn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            gsap.to(scrollBtn, {
+                x: x * 0.5,
+                y: y * 0.5,
+                duration: 0.3
+            });
+        });
+        
+        scrollBtn.addEventListener('mouseleave', () => {
+            gsap.to(scrollBtn, { x: 0, y: 0, duration: 0.5, ease: "elastic.out(1, 0.3)" });
+        });
+
+
+        // --- 4. MARQUEE STRIP ---
+        gsap.to(".marquee-track", {
+            xPercent: -50, // Move half the width (since we have duplicate items)
+            ease: "none",
+            duration: 10,
+            repeat: -1
+        });
+
+
+        // --- 5. ABOUT TEXT REVEAL ---
+        const highlightTexts = document.querySelectorAll('.highlight-text');
+        
+        highlightTexts.forEach((text, i) => {
+            gsap.from(text, {
+                scrollTrigger: {
+                    trigger: text,
+                    start: "top 80%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 100,
+                opacity: 0,
+                duration: 0.8,
+                ease: "power3.out",
+                delay: i * 0.1
+            });
+        });
+        
+        gsap.from(".about-desc", {
+            scrollTrigger: {
+                trigger: ".about-desc",
+                start: "top 85%"
+            },
+            opacity: 0,
+            y: 50,
+            duration: 1
+        });
+
+
+        // --- 6. HORIZONTAL SCROLL SECTION ---
+        // Only enable horizontal scroll on desktop/tablet
+        if (window.innerWidth > 768) {
+            const worksSection = document.querySelector(".works-wrapper");
+            const worksContainer = document.querySelector(".works-container");
+            
+            // Calculate how far to move: total width of container - viewport width
+            // We use a function to recalculate on resize is implied, 
+            // but for simplicity in this demo we compute once.
+            
+            function getScrollAmount() {
+                let worksWidth = worksContainer.scrollWidth;
+                return -(worksWidth - window.innerWidth);
+            }
+
+            const tween = gsap.to(worksContainer, {
+                x: getScrollAmount,
+                ease: "none"
+            });
+
+            ScrollTrigger.create({
+                trigger: ".works-wrapper",
+                start: "top top",
+                end: () => `+=${getScrollAmount() * -1}`, // scroll duration based on width
+                pin: true,
+                animation: tween,
+                scrub: 1,
+                invalidateOnRefresh: true
+            });
+        }
+
+
+        // --- 7. FOOTER COLOR INVERSION ---
+        const footer = document.querySelector('footer');
+        const contactTrigger = document.querySelector('#contact-trigger');
+
+        contactTrigger.addEventListener('mouseenter', () => {
+            footer.classList.add('inverted');
+            cursor.style.backgroundColor = '#0a0a0a'; // Invert cursor color manually for contrast
+        });
+
+        contactTrigger.addEventListener('mouseleave', () => {
+            footer.classList.remove('inverted');
+            cursor.style.backgroundColor = '#ccff00'; // Reset cursor
+        });
+
+    </script>
+</body>
+</html>
