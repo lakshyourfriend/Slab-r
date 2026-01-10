@@ -4,15 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Slab-R | Constructing Velocity</title>
-    <!-- Tailwind CSS -->
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-    <!-- Font Awesome -->
-    <link href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css)" rel="stylesheet">
-    <!-- Fonts -->
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap](https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap)" rel="stylesheet">
-    <!-- External CSS -->
+    
+    <!-- Tailwind CSS (Fixed Link) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome (Fixed Link) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Fonts (Fixed Links) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- External CSS (Ensure style.css is in the same folder) -->
     <link rel="stylesheet" href="style.css">
 
     <script>
@@ -20,11 +24,11 @@
             theme: {
                 extend: {
                     colors: {
-                        'slab-saffron': '#0066FF', /* Electric Blue */
-                        'slab-indigo': '#001e3c', /* Deep Navy */
-                        'slab-cyan': '#FFFFFF',   /* White */
-                        'slab-dark': '#02040a',   /* Very Dark Blue/Black */
-                        'slab-gray': '#0f172a',   /* Slate Blue Dark */
+                        'slab-saffron': '#0066FF',
+                        'slab-indigo': '#001e3c',
+                        'slab-cyan': '#FFFFFF',
+                        'slab-dark': '#02040a',
+                        'slab-gray': '#0f172a',
                     },
                     fontFamily: {
                         'sans': ['Inter', 'sans-serif'],
@@ -54,362 +58,72 @@
             }
         }
     </script>
+    <style>
+        .grid-bg {
+            background-color: #02040a;
+            background-image: linear-gradient(rgba(0, 102, 255, 0.05) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(0, 102, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .logo-slab { color: #0066FF; }
+        .fire-particle {
+            position: absolute;
+            bottom: 0;
+            background: #0066FF;
+            border-radius: 50%;
+            filter: blur(2px);
+            animation: rise linear infinite;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-50px) scale(0); opacity: 0; }
+        }
+    </style>
 </head>
-<body class="selection:bg-slab-saffron selection:text-white">
+<body class="bg-slab-dark text-white selection:bg-slab-saffron selection:text-white">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 mix-blend-difference bg-slab-dark/80 backdrop-blur-md border-b border-white/10">
+    <nav class="fixed w-full z-50 bg-slab-dark/80 backdrop-blur-md border-b border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <div class="flex-shrink-0 cursor-pointer logo-container group">
+                <div class="flex-shrink-0 cursor-pointer group">
                     <span class="font-display font-bold text-3xl tracking-tighter logo-slab">SLAB</span>
                     <span class="text-slab-saffron text-3xl font-bold mx-1 animate-pulse">-</span>
-                    <span class="font-display font-bold text-3xl text-white logo-r">R</span>
+                    <span class="font-display font-bold text-3xl text-white">R</span>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#methodology" class="hover:text-slab-saffron transition-colors duration-300 font-display uppercase tracking-widest text-sm">Methodology</a>
-                        <a href="#services" class="hover:text-slab-saffron transition-colors duration-300 font-display uppercase tracking-widest text-sm">Services</a>
-                        <a href="#contact" class="px-6 py-2 border border-slab-saffron text-slab-saffron hover:bg-slab-saffron hover:text-white transition-all duration-300 font-display uppercase tracking-widest text-sm font-bold skew-x-[-10deg]">
+                        <a href="#" class="hover:text-slab-saffron transition-colors duration-300 font-display uppercase tracking-widest text-sm">Methodology</a>
+                        <a href="#" class="hover:text-slab-saffron transition-colors duration-300 font-display uppercase tracking-widest text-sm">Services</a>
+                        <a href="#" class="px-6 py-2 border border-slab-saffron text-slab-saffron hover:bg-slab-saffron hover:text-white transition-all duration-300 font-display uppercase tracking-widest text-sm font-bold skew-x-[-10deg]">
                             <span class="skew-x-[10deg] inline-block">Launch</span>
                         </a>
                     </div>
                 </div>
-                <!-- Mobile menu button -->
-                <div class="-mr-2 flex md:hidden">
-                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
-                        <span class="sr-only">Open main menu</span>
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="hidden md:hidden bg-slab-dark border-b border-white/10" id="mobile-menu">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#methodology" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium font-display">Methodology</a>
-                <a href="#services" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium font-display">Services</a>
-                <a href="#contact" class="text-slab-saffron block px-3 py-2 rounded-md text-base font-medium font-display">Launch Project</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <header class="relative h-screen flex items-center justify-center overflow-hidden grid-bg">
-        <!-- Abstract Background Shapes -->
-        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-20">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-slab-indigo rounded-full mix-blend-screen filter blur-[100px] animate-float"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-slab-saffron rounded-full mix-blend-screen filter blur-[100px] animate-float" style="animation-delay: 2s"></div>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] border border-white/5 rounded-full animate-spin" style="animation-duration: 60s"></div>
-        </div>
-
         <div class="relative z-10 text-center px-4">
             <div class="mb-8 inline-block">
                 <span class="font-display text-slab-cyan tracking-[0.5em] text-xs uppercase border border-slab-cyan/30 px-4 py-1 rounded-full backdrop-blur-sm">Propulsion Engine v1.0</span>
             </div>
             
+            <h1 class="text-6xl md:text-8xl font-display font-bold mb-4">SLAB-R</h1>
             <p class="mt-4 max-w-2xl mx-auto text-xl md:text-2xl text-gray-400 font-light mb-12">
-                Constructing velocity for the <span class="text-slab-cyan font-semibold">Digital India</span> ecosystem.
+                Constructing velocity for the <span class="text-slab-saffron font-semibold">Digital India</span> ecosystem.
             </p>
 
-            <div class="mt-8 flex flex-col md:flex-row gap-6 justify-center items-center">
-                <button class="group relative px-8 py-4 bg-slab-saffron text-white font-display font-bold uppercase tracking-wider overflow-hidden">
-                    <!-- Existing Shine -->
-                    <div class="absolute inset-0 w-full h-full bg-white/20 transform -translate-x-full skew-x-12 group-hover:translate-x-full transition-transform duration-700 z-20"></div>
-                    
-                    <!-- Fire Particles Container -->
-                    <div class="absolute inset-x-0 bottom-0 h-full w-full pointer-events-none z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <!-- Dense Core (Faster, Hotter) -->
-                        <div class="fire-particle" style="left: 45%; animation-delay: 0ms; animation-duration: 0.5s; width: 14px; height: 14px;"></div>
-                        <div class="fire-particle" style="left: 50%; animation-delay: 80ms; animation-duration: 0.55s; width: 14px; height: 14px;"></div>
-                        <div class="fire-particle" style="left: 55%; animation-delay: 40ms; animation-duration: 0.5s; width: 14px; height: 14px;"></div>
-                        
-                        <!-- Mid Range -->
-                        <div class="fire-particle" style="left: 40%; animation-delay: 150ms; animation-duration: 0.6s"></div>
-                        <div class="fire-particle" style="left: 60%; animation-delay: 200ms; animation-duration: 0.65s"></div>
-                        <div class="fire-particle" style="left: 35%; animation-delay: 90ms; animation-duration: 0.7s"></div>
-                        <div class="fire-particle" style="left: 65%; animation-delay: 120ms; animation-duration: 0.7s"></div>
-
-                        <!-- Wide Spread (Slower, Smaller) -->
-                        <div class="fire-particle" style="left: 25%; animation-delay: 300ms; animation-duration: 0.8s; transform: scale(0.8);"></div>
-                        <div class="fire-particle" style="left: 75%; animation-delay: 250ms; animation-duration: 0.85s; transform: scale(0.8);"></div>
-                        <div class="fire-particle" style="left: 15%; animation-delay: 400ms; animation-duration: 0.9s; width: 8px;"></div>
-                        <div class="fire-particle" style="left: 85%; animation-delay: 350ms; animation-duration: 0.9s; width: 8px;"></div>
-                        
-                        <!-- Quick Sparks -->
-                        <div class="fire-particle" style="left: 48%; animation-delay: 20ms; animation-duration: 0.4s; width: 6px; height: 8px;"></div>
-                        <div class="fire-particle" style="left: 52%; animation-delay: 60ms; animation-duration: 0.4s; width: 6px; height: 8px;"></div>
-                    </div>
-
-                    <span class="relative z-30">Ignite Growth</span>
+            <div class="mt-8 flex justify-center">
+                <button class="group relative px-12 py-4 bg-slab-saffron text-white font-display font-bold uppercase tracking-wider overflow-hidden">
+                    EXPLORE INTERFACE
+                    <div class="absolute inset-0 w-full h-full bg-white/20 transform -translate-x-full skew-x-12 group-hover:translate-x-full transition-transform duration-700"></div>
                 </button>
-                <a href="#services" class="px-8 py-4 border border-white/20 hover:border-slab-cyan text-white hover:text-slab-cyan font-display font-bold uppercase tracking-wider transition-all duration-300">
-                    View Slabs
-                </a>
             </div>
-        </div>
-
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-50 animate-bounce">
-            <span class="text-xs uppercase tracking-widest mb-2 font-display">Scroll</span>
-            <i class="fas fa-chevron-down"></i>
         </div>
     </header>
 
-    <!-- Kinetic Marquee -->
-    <div class="bg-slab-saffron text-white py-3 overflow-hidden border-y border-white/20 relative z-20">
-        <div class="scrolling-wrapper font-display font-bold text-3xl uppercase tracking-widest whitespace-nowrap">
-            <span class="mr-4">Scale • Launch • Accelerate • Build • Results •</span>
-            <span class="mr-4">Scale • Launch • Accelerate • Build • Results •</span>
-            <span class="mr-4">Scale • Launch • Accelerate • Build • Results •</span>
-            <span class="mr-4">Scale • Launch • Accelerate • Build • Results •</span>
-            <span class="mr-4">Scale • Launch • Accelerate • Build • Results •</span>
-            <span class="mr-4">Scale • Launch • Accelerate • Build • Results •</span>
-        </div>
-    </div>
-
-    <!-- Manifesto Section -->
-    <section id="manifesto" class="py-24 px-4 sm:px-6 lg:px-8 relative">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-4xl md:text-6xl font-display font-bold mb-8 leading-tight">
-                WE DON'T JUST <br>
-                <span class="text-stroke-saffron">MOVE THE NEEDLE.</span><br>
-                WE REDESIGN <br>
-                THE GAUGE.
-            </h2>
-            <div class="w-24 h-1 bg-slab-saffron mb-8 mx-auto"></div>
-            <p class="text-lg text-gray-300 mb-6 leading-relaxed font-light">
-                India is no longer waiting for the future; it is building it in real-time. In a market defined by chaotic energy and rapid digitization, businesses need more than just marketing—they need <strong class="text-white">structural momentum</strong>.
-            </p>
-            <p class="text-lg text-gray-300 leading-relaxed font-light">
-                From the boardrooms of Mumbai to the tech parks of Bengaluru, we fuse the solidity of strategy with the fluidity of digital motion.
-            </p>
-        </div>
-    </section>
-
-    <!-- Methodology / The SLAB-R System -->
-    <section id="methodology" class="py-24 bg-slab-gray/50 relative overflow-hidden">
-        <!-- Background decorative grid -->
-        <div class="absolute inset-0" style="background-image: radial-gradient(#0066FF 1px, transparent 1px); background-size: 30px 30px; opacity: 0.05;"></div>
-
-        <div class="max-w-7xl mx-auto px-4 relative z-10">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-8">
-                <div>
-                    <h2 class="text-sm font-display text-slab-saffron tracking-[0.5em] uppercase mb-2">The Methodology</h2>
-                    <h3 class="text-4xl md:text-5xl font-display font-bold">SYSTEM <span class="text-slab-saffron">ARCHITECTURE</span></h3>
-                </div>
-                <div class="mt-4 md:mt-0 max-w-md text-right text-gray-400 font-mono text-xs">
-                    // PROTOCOL: EXPONENTIAL_GROWTH<br>
-                    // STATUS: ACTIVE
-                </div>
-            </div>
-
-            <!-- Refined Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                
-                <!-- S -->
-                <div class="relative group p-6 border border-white/10 bg-slab-dark hover:border-slab-saffron transition-all duration-500 overflow-hidden">
-                    <div class="absolute top-0 right-0 p-2 text-xs font-mono text-gray-600 group-hover:text-slab-saffron transition-colors">01</div>
-                    <div class="text-5xl font-display font-bold text-white/20 group-hover:text-slab-saffron group-hover:scale-110 transition-all duration-500 mb-12 transform origin-top-left">S</div>
-                    <div class="relative z-10">
-                        <h4 class="text-lg font-bold mb-2 font-display text-white">SCALE</h4>
-                        <div class="h-0.5 w-8 bg-white/20 group-hover:w-full group-hover:bg-slab-saffron transition-all duration-500 mb-3"></div>
-                        <p class="text-xs text-gray-400 leading-relaxed">Expansion architecture. Building systems that handle exponential growth without cracking.</p>
-                    </div>
-                </div>
-
-                <!-- L -->
-                <div class="relative group p-6 border border-white/10 bg-slab-dark hover:border-slab-saffron transition-all duration-500 overflow-hidden">
-                    <div class="absolute top-0 right-0 p-2 text-xs font-mono text-gray-600 group-hover:text-slab-saffron transition-colors">02</div>
-                    <div class="text-5xl font-display font-bold text-white/20 group-hover:text-slab-saffron group-hover:scale-110 transition-all duration-500 mb-12 transform origin-top-left">L</div>
-                    <div class="relative z-10">
-                        <h4 class="text-lg font-bold mb-2 font-display text-white">LAUNCH</h4>
-                        <div class="h-0.5 w-8 bg-white/20 group-hover:w-full group-hover:bg-slab-saffron transition-all duration-500 mb-3"></div>
-                        <p class="text-xs text-gray-400 leading-relaxed">Go-to-market precision. High-impact entry strategies for the crowded Indian market.</p>
-                    </div>
-                </div>
-
-                <!-- A -->
-                <div class="relative group p-6 border border-white/10 bg-slab-dark hover:border-slab-saffron transition-all duration-500 overflow-hidden">
-                    <div class="absolute top-0 right-0 p-2 text-xs font-mono text-gray-600 group-hover:text-slab-saffron transition-colors">03</div>
-                    <div class="text-5xl font-display font-bold text-white/20 group-hover:text-slab-saffron group-hover:scale-110 transition-all duration-500 mb-12 transform origin-top-left">A</div>
-                    <div class="relative z-10">
-                        <h4 class="text-lg font-bold mb-2 font-display text-white">ACCELERATE</h4>
-                        <div class="h-0.5 w-8 bg-white/20 group-hover:w-full group-hover:bg-slab-saffron transition-all duration-500 mb-3"></div>
-                        <p class="text-xs text-gray-400 leading-relaxed">Momentum generation via advanced motion graphics and kinetic campaigns.</p>
-                    </div>
-                </div>
-
-                <!-- B -->
-                <div class="relative group p-6 border border-white/10 bg-slab-dark hover:border-slab-saffron transition-all duration-500 overflow-hidden">
-                    <div class="absolute top-0 right-0 p-2 text-xs font-mono text-gray-600 group-hover:text-slab-saffron transition-colors">04</div>
-                    <div class="text-5xl font-display font-bold text-white/20 group-hover:text-slab-saffron group-hover:scale-110 transition-all duration-500 mb-12 transform origin-top-left">B</div>
-                    <div class="relative z-10">
-                        <h4 class="text-lg font-bold mb-2 font-display text-white">BUILD</h4>
-                        <div class="h-0.5 w-8 bg-white/20 group-hover:w-full group-hover:bg-slab-saffron transition-all duration-500 mb-3"></div>
-                        <p class="text-xs text-gray-400 leading-relaxed">Legacy infrastructure. Brand foundations that last decades, not just fiscal quarters.</p>
-                    </div>
-                </div>
-
-                <!-- R -->
-                <div class="relative group p-6 border border-slab-saffron/30 bg-slab-saffron/10 hover:bg-slab-saffron hover:border-slab-saffron transition-all duration-500 overflow-hidden">
-                    <div class="absolute top-0 right-0 p-2 text-xs font-mono text-slab-saffron group-hover:text-white transition-colors">05</div>
-                    <div class="text-5xl font-display font-bold text-slab-saffron/40 group-hover:text-white group-hover:scale-110 transition-all duration-500 mb-12 transform origin-top-left">R</div>
-                    <div class="relative z-10">
-                        <h4 class="text-lg font-bold mb-2 font-display text-white">RESULTS</h4>
-                        <div class="h-0.5 w-8 bg-slab-saffron group-hover:w-full group-hover:bg-white transition-all duration-500 mb-3"></div>
-                        <p class="text-xs text-white/80 group-hover:text-white leading-relaxed">The outcome. Measurable, impactful, revenue-driving performance.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Detailed Services Section (What We Do) -->
-    <section id="services" class="py-24 bg-slab-dark relative border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="mb-16">
-                <h2 class="text-sm font-display text-slab-saffron tracking-[0.5em] uppercase mb-2">Capabilities</h2>
-                <h3 class="text-4xl md:text-6xl font-display font-bold mb-6">DEPLOYMENT <span class="text-stroke-saffron">PROTOCOLS</span></h3>
-                <p class="text-gray-400 max-w-2xl font-light">We deploy end-to-end digital infrastructure. From the first line of code to the final frame of animation.</p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <!-- Service 1 -->
-                <div class="service-card p-8 rounded-sm group">
-                    <div class="text-slab-saffron text-3xl mb-6"><i class="fas fa-rocket"></i></div>
-                    <h4 class="text-2xl font-display font-bold text-white mb-4">Brand Strategy & GTM</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Market penetration strategies tailored for the Indian startup ecosystem. We define your voice before you speak.</p>
-                    <ul class="space-y-2 text-xs font-mono text-gray-500 group-hover:text-gray-300">
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Identity Systems</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Market Positioning</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Launch Campaigns</li>
-                    </ul>
-                </div>
-
-                <!-- Service 2 -->
-                <div class="service-card p-8 rounded-sm group">
-                    <div class="text-slab-saffron text-3xl mb-6"><i class="fas fa-layer-group"></i></div>
-                    <h4 class="text-2xl font-display font-bold text-white mb-4">High-Performance UI/UX</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Interfaces that move as fast as your users. We design fluid, intuitive experiences for web and mobile.</p>
-                    <ul class="space-y-2 text-xs font-mono text-gray-500 group-hover:text-gray-300">
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>App Design</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Web Platforms</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Design Systems</li>
-                    </ul>
-                </div>
-
-                <!-- Service 3 -->
-                <div class="service-card p-8 rounded-sm group">
-                    <div class="text-slab-saffron text-3xl mb-6"><i class="fas fa-cube"></i></div>
-                    <h4 class="text-2xl font-display font-bold text-white mb-4">3D & Motion Graphics</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Visuals that arrest attention. Kinetic typography, 3D product reveals, and immersive storytelling.</p>
-                    <ul class="space-y-2 text-xs font-mono text-gray-500 group-hover:text-gray-300">
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>CGI & VFX</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Kinetic Typography</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Product Visualization</li>
-                    </ul>
-                </div>
-
-                <!-- Service 4 -->
-                <div class="service-card p-8 rounded-sm group">
-                    <div class="text-slab-saffron text-3xl mb-6"><i class="fas fa-code"></i></div>
-                    <h4 class="text-2xl font-display font-bold text-white mb-4">Creative Technology</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Building the engine. Robust full-stack development that scales with your ambition.</p>
-                    <ul class="space-y-2 text-xs font-mono text-gray-500 group-hover:text-gray-300">
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>React/Next.js Dev</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>WebGL Experiences</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Mobile Engineering</li>
-                    </ul>
-                </div>
-
-                <!-- Service 5 -->
-                <div class="service-card p-8 rounded-sm group">
-                    <div class="text-slab-saffron text-3xl mb-6"><i class="fas fa-chart-line"></i></div>
-                    <h4 class="text-2xl font-display font-bold text-white mb-4">Growth Engineering</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Data-driven acceleration. We optimize every touchpoint for maximum conversion and retention.</p>
-                    <ul class="space-y-2 text-xs font-mono text-gray-500 group-hover:text-gray-300">
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Performance Marketing</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>CRO & Analytics</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 bg-slab-saffron mr-2"></span>Technical SEO</li>
-                    </ul>
-                </div>
-
-                <!-- Service 6 -->
-                <div class="service-card p-8 rounded-sm group border-dashed border-white/20 hover:border-solid hover:border-slab-saffron">
-                    <div class="h-full flex flex-col justify-center items-center text-center">
-                        <div class="text-4xl text-gray-600 mb-4 group-hover:text-slab-saffron transition-colors"><i class="fas fa-plus"></i></div>
-                        <h4 class="text-xl font-display font-bold text-gray-400 group-hover:text-white mb-2">Custom Slab</h4>
-                        <p class="text-xs text-gray-500 mb-6">Need a bespoke solution?</p>
-                        <a href="#contact" class="text-slab-saffron text-xs font-bold uppercase tracking-widest border-b border-slab-saffron pb-1">Initialize Contact</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Digital India Stats Section -->
-    <section class="py-24 bg-slab-indigo relative overflow-hidden">
-        <div class="absolute inset-0 bg-slab-dark opacity-90"></div>
-        <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
-            <h2 class="text-3xl md:text-5xl font-display font-bold mb-16">ENGINEERING THE <span class="text-slab-cyan">NEW INDIA</span></h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="border border-slab-cyan/30 p-8 backdrop-blur-md rounded-lg">
-                    <div class="text-4xl font-bold text-white mb-2">₹500Cr+</div>
-                    <div class="text-slab-cyan text-sm uppercase tracking-widest">Revenue Impact</div>
-                </div>
-                <div class="border border-slab-cyan/30 p-8 backdrop-blur-md rounded-lg">
-                    <div class="text-4xl font-bold text-white mb-2">35+</div>
-                    <div class="text-slab-cyan text-sm uppercase tracking-widest">Unicorns Launched</div>
-                </div>
-                <div class="border border-slab-cyan/30 p-8 backdrop-blur-md rounded-lg">
-                    <div class="text-4xl font-bold text-white mb-2">100%</div>
-                    <div class="text-slab-cyan text-sm uppercase tracking-widest">Digital Native</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact / Footer -->
-    <section id="contact" class="pt-24 pb-12 px-4 border-t border-white/10">
-        <div class="max-w-5xl mx-auto text-center">
-            <p class="text-slab-saffron font-mono mb-4">READY_TO_INITIALIZE?</p>
-            <h2 class="text-5xl md:text-7xl font-display font-bold mb-12 hover:text-stroke cursor-pointer transition-all duration-300">
-                LET'S BUILD <br> THE FUTURE.
-            </h2>
-            
-            <a href="mailto:hello@slab-r.in" class="inline-block bg-white text-black font-display font-bold text-xl px-12 py-5 uppercase tracking-widest hover:bg-slab-saffron hover:text-white transition-colors duration-300 skew-x-[-10deg]">
-                <span class="skew-x-[10deg] inline-block">Start Project</span>
-            </a>
-        </div>
-
-        <footer class="mt-32 border-t border-white/10 pt-12">
-            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center mb-4 md:mb-0">
-                    <span class="font-display font-bold text-2xl tracking-tighter">SLAB-R</span>
-                </div>
-                
-                <div class="flex space-x-6 text-sm text-gray-500 font-mono">
-                    <a href="#" class="hover:text-white">BENGALURU</a>
-                    <a href="#" class="hover:text-white">GURGAON</a>
-                    <a href="#" class="hover:text-white">MUMBAI</a>
-                </div>
-
-                <div class="mt-4 md:mt-0 text-gray-600 text-sm">
-                    © 2024 Slab-R Agency. All Rights Reserved.
-                </div>
-            </div>
-        </footer>
-    </section>
-
-    <!-- Custom Cursor -->
-    <div id="cursor" class="custom-cursor hidden md:block"></div>
-
-    <!-- External JS -->
-    <script src="script.js"></script>
 </body>
 </html>
