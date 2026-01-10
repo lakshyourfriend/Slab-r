@@ -1,0 +1,175 @@
+body {
+    background-color: #02040a;
+    color: #F0F2F5;
+    overflow-x: hidden;
+    cursor: none; /* Hide default cursor */
+}
+
+/* Kinetic Typography Utilities */
+.text-stroke {
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+    color: transparent;
+}
+
+.text-stroke-saffron {
+    -webkit-text-stroke: 1px #0066FF;
+    color: transparent;
+}
+
+.kinetic-text:hover {
+    color: #0066FF;
+    -webkit-text-stroke: 0px;
+    transform: skewX(-10deg);
+    transition: all 0.3s ease;
+}
+
+/* Glitch Effect */
+.glitch-wrapper {
+    position: relative;
+}
+
+.grid-bg {
+    background-image: 
+        linear-gradient(rgba(0, 102, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 102, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+}
+
+.logo-r {
+    display: inline-block;
+    transform: skewX(-25deg);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.logo-container:hover .logo-r {
+    transform: skewX(-25deg) translateX(10px);
+    text-shadow: 0 0 20px #0066FF;
+}
+
+.logo-container:hover .logo-slab {
+    letter-spacing: 0.1em;
+}
+
+.logo-slab {
+    transition: all 0.5s ease;
+}
+
+/* Horizontal Scroll Animation */
+.scrolling-wrapper {
+    display: flex;
+    width: 200%;
+    animation: slideLeft 20s linear infinite;
+}
+
+/* Animation Keyframes */
+@keyframes slideLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #02040a; 
+} 
+::-webkit-scrollbar-thumb {
+    background: #001e3c; 
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #0066FF; 
+}
+
+/* Polygon Fire Animation - Realistic Heat Map */
+@keyframes rise-burn {
+    0% {
+        transform: translateY(10px) translateX(-2px) scale(0.5) rotate(0deg);
+        opacity: 0;
+        background-color: #ffffff; /* Core heat (White) */
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+    15% {
+        opacity: 1;
+        transform: translateY(0) translateX(2px) scale(1) rotate(10deg);
+        background-color: #ffdd00; /* Yellow */
+    }
+    40% {
+        background-color: #ff7700; /* Orange */
+        transform: translateY(-15px) translateX(-1px) scale(0.9) rotate(-10deg);
+    }
+    70% {
+        background-color: #ff0000; /* Red */
+        opacity: 0.7;
+        box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+    }
+    100% {
+        transform: translateY(-50px) translateX(3px) scale(0.2) rotate(45deg);
+        opacity: 0;
+        background-color: #1a0000; /* Smoke/Char */
+    }
+}
+
+.fire-particle {
+    position: absolute;
+    bottom: -10px;
+    width: 12px;
+    height: 12px;
+    background-color: #FFFFFF;
+    /* Sharp shard shape for digital fire feel */
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%); 
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen; /* Makes colors blend and glow */
+}
+
+.group:hover .fire-particle {
+    animation: rise-burn 0.6s ease-out infinite;
+}
+
+/* New Utilities for Services */
+.service-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.4s ease;
+}
+.service-card:hover {
+    background: rgba(0, 102, 255, 0.1);
+    border-color: #0066FF;
+    transform: translateY(-5px);
+}
+
+/* Custom Cursor Styles */
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background-color: #0066FF;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    /* Smooth scaling but instant movement */
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+.custom-cursor.hovered {
+    width: 48px;
+    height: 48px;
+    background-color: #FFFFFF;
+    mix-blend-mode: difference;
+    opacity: 0.8;
+}
+
+/* Show default cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+    .custom-cursor {
+        display: none;
+    }
+    body {
+        cursor: auto;
+    }
+}
